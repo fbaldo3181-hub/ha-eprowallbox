@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Conectar su eProWallbox",
+        "description": "Introduzca la dirección IP y el puerto Modbus TCP de su cargador.",
+        "data": {
+          "host": "Host",
+          "port": "Puerto"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Error al conectar. Compruebe la dirección, el puerto y que Modbus TCP esté activado en el cargador.",
+      "unknown": "Error inesperado"
+    },
+    "abort": {
+      "already_configured": "Este cargador ya está configurado"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Ajustes de conexión del cargador",
+        "data": {
+          "host": "Host",
+          "port": "Puerto"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Error al conectar. Compruebe la dirección, el puerto y que Modbus TCP esté activado en el cargador.",
+      "unknown": "Error inesperado"
+    }
+  }
+}

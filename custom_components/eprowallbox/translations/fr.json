@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connecter votre eProWallbox",
+        "description": "Saisissez l'adresse IP et le port Modbus TCP de votre borne.",
+        "data": {
+          "host": "Hôte",
+          "port": "Port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion. Vérifiez l'adresse, le port et que le Modbus TCP est activé sur la borne.",
+      "unknown": "Erreur inattendue"
+    },
+    "abort": {
+      "already_configured": "Cette borne est déjà configurée"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Paramètres de connexion de la borne",
+        "data": {
+          "host": "Hôte",
+          "port": "Port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion. Vérifiez l'adresse, le port et que le Modbus TCP est activé sur la borne.",
+      "unknown": "Erreur inattendue"
+    }
+  }
+}

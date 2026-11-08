@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Mit Ihrer eProWallbox verbinden",
+        "description": "Geben Sie die IP-Adresse und den Modbus-TCP-Port Ihrer Wallbox ein.",
+        "data": {
+          "host": "Host",
+          "port": "Port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen. Prüfen Sie Adresse und Port und ob Modbus TCP an der Wallbox aktiviert ist.",
+      "unknown": "Unerwarteter Fehler"
+    },
+    "abort": {
+      "already_configured": "Diese Wallbox ist bereits konfiguriert"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Verbindungseinstellungen der Wallbox",
+        "data": {
+          "host": "Host",
+          "port": "Port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen. Prüfen Sie Adresse und Port und ob Modbus TCP an der Wallbox aktiviert ist.",
+      "unknown": "Unerwarteter Fehler"
+    }
+  }
+}

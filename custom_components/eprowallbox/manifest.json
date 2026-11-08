@@ -1,0 +1,14 @@
+{
+  "domain": "eprowallbox",
+  "name": "eProWallbox",
+  "codeowners": ["@fbaldo3181-hub"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http"],
+  "documentation": "https://github.com/fbaldo3181-hub/ha-eprowallbox",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/fbaldo3181-hub/ha-eprowallbox/issues",
+  "loggers": ["pymodbus"],
+  "requirements": ["pymodbus>=3.8.0"],
+  "version": "0.1.0"
+}

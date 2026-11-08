@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v1.1.1
+_src_path: ha-hacs-template
+author_name: fbaldo3181-hub
+documentation_url: https://github.com/fbaldo3181-hub/ha-eprowallbox
+integration_type: device
+iot_class: local_polling
+issue_tracker_url: https://github.com/fbaldo3181-hub/ha-eprowallbox/issues
+project_description: A Home Assistant integration. for eProWallbox chargers
+project_domain: eprowallbox
+project_name: eProWallbox
+use_multi_step_config_flow: false
+use_secondary_coordinator: false
+use_services: true
+use_websocket: false
+version: 0.1.0
