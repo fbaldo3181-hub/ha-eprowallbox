@@ -3,15 +3,16 @@
     "step": {
       "user": {
         "title": "Connecter votre eProWallbox",
-        "description": "Saisissez l'adresse IP et le port Modbus TCP de votre borne.",
+        "description": "Saisissez l'adresse IP, le port et le type de trame Modbus de votre borne. L'eProWallbox Move nécessite généralement « Modbus RTU sur TCP ».",
         "data": {
           "host": "Hôte",
-          "port": "Port"
+          "port": "Port",
+          "framer": "Type de trame"
         }
       }
     },
     "error": {
-      "cannot_connect": "Échec de la connexion. Vérifiez l'adresse, le port et que le Modbus TCP est activé sur la borne.",
+      "cannot_connect": "Échec de la connexion. Vérifiez l'adresse, le port, le type de trame (RTU sur TCP / Modbus TCP) et les réglages Modbus de la borne.",
       "unknown": "Erreur inattendue"
     },
     "abort": {
@@ -24,13 +25,22 @@
         "title": "Paramètres de connexion de la borne",
         "data": {
           "host": "Hôte",
-          "port": "Port"
+          "port": "Port",
+          "framer": "Type de trame"
         }
       }
     },
     "error": {
-      "cannot_connect": "Échec de la connexion. Vérifiez l'adresse, le port et que le Modbus TCP est activé sur la borne.",
+      "cannot_connect": "Échec de la connexion. Vérifiez l'adresse, le port, le type de trame (RTU sur TCP / Modbus TCP) et les réglages Modbus de la borne.",
       "unknown": "Erreur inattendue"
+    }
+  },
+  "selector": {
+    "framer": {
+      "options": {
+        "rtu": "Modbus RTU sur TCP (passerelle RS485)",
+        "socket": "Modbus TCP (standard)"
+      }
     }
   }
 }

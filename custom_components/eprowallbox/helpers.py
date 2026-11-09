@@ -1,21 +1,29 @@
 """Helpers for the eProWallbox integration."""
 
-from collections.abc import Mapping
-from typing import Any
+from __future__ import annotations
 
-from modbus_connection import ModbusSerialParams, ModbusTcpParams
+import inspect
 
-from homeassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
+from pymodbus import FramerType
+from pymodbus.client import AsyncModbusTcpClient
 
-from .const import CONF_BAUDRATE, TYPE_SERIAL
+from .const import FRAMER_RTU
 
 
-def create_modbus_params(
-    data: Mapping[str, Any],
-) -> ModbusSerialParams | ModbusTcpParams:
-    """Build the Modbus link parameters from config entry data."""
-    if data[CONF_TYPE] == TYPE_SERIAL:
-        return ModbusSerialParams(
-            device=data[CONF_DEVICE], baudrate=data[CONF_BAUDRATE]
-        )
-    return ModbusTcpParams(host=data[CONF_HOST], port=data[CONF_PORT])
+def create_client(host: str, port: int, framer: str, timeout: float) -> AsyncModbusTcpClient:
+    """Créer le client Modbus avec la bonne trame (RTU sur TCP ou Modbus TCP)."""
+    return AsyncModbusTcpClient(
+        host,
+        port=port,
+        framer=FramerType.RTU if framer == FRAMER_RTU else FramerType.SOCKET,
+        timeout=timeout,
+    )
+
+
+def slave_kwarg(client: AsyncModbusTcpClient) -> str:
+    """pymodbus >= 3.10 : "device_id" ; versions précédentes : "slave"."""
+    return (
+        "device_id"
+        if "device_id" in inspect.signature(client.read_holding_registers).parameters
+        else "slave"
+    )

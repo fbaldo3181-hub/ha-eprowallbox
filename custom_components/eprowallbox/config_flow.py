@@ -7,7 +7,6 @@ import logging
 from typing import Any
 
 import voluptuous as vol
-from pymodbus.client import AsyncModbusTcpClient
 from pymodbus.exceptions import ModbusException
 
 from homeassistant.config_entries import (
@@ -18,9 +17,15 @@ from homeassistant.config_entries import (
 )
 from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.selector import (
+    SelectSelector,
+    SelectSelectorConfig,
+    SelectSelectorMode,
+)
 
-from .const import DEFAULT_PORT, DOMAIN
+from .const import CONF_FRAMER, DEFAULT_FRAMER, DEFAULT_PORT, DOMAIN, FRAMERS
 from .coordinator import SLAVE_ID, TIMEOUT
+from .helpers import create_client, slave_kwarg
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,10 +35,19 @@ TEST_REGISTER_COUNT = 8
 
 PORT_VALIDATOR = vol.All(vol.Coerce(int), vol.Range(min=1, max=65535))
 
+FRAMER_SELECTOR = SelectSelector(
+    SelectSelectorConfig(
+        options=FRAMERS,
+        translation_key="framer",
+        mode=SelectSelectorMode.DROPDOWN,
+    )
+)
+
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_HOST): str,
         vol.Required(CONF_PORT, default=DEFAULT_PORT): PORT_VALIDATOR,
+        vol.Required(CONF_FRAMER, default=DEFAULT_FRAMER): FRAMER_SELECTOR,
     }
 )
 
@@ -45,28 +59,24 @@ class CannotConnect(Exception):
 async def _async_validate_connection(
     hass: HomeAssistant, user_input: dict[str, Any]
 ) -> None:
-    """Validate that the wallbox answers on Modbus TCP.
+    """Validate that the wallbox answers (Modbus RTU over TCP or Modbus TCP).
 
     Raise CannotConnect on failure.
     """
-    client = AsyncModbusTcpClient(
+    client = create_client(
         user_input[CONF_HOST],
-        port=user_input[CONF_PORT],
-        timeout=TIMEOUT,
+        user_input[CONF_PORT],
+        user_input.get(CONF_FRAMER, DEFAULT_FRAMER),
+        TIMEOUT,
     )
-    # pymodbus >= 3.10 : "device_id" ; versions précédentes : "slave"
-    slave_kwarg = (
-        "device_id"
-        if "device_id" in inspect.signature(client.read_holding_registers).parameters
-        else "slave"
-    )
+    slave_kw = slave_kwarg(client)
     try:
         if not await client.connect():
             raise CannotConnect
         response = await client.read_holding_registers(
             TEST_REGISTER,
             count=TEST_REGISTER_COUNT,
-            **{slave_kwarg: SLAVE_ID},
+            **{slave_kw: SLAVE_ID},
         )
         if response.isError():
             _LOGGER.debug("Test register read refused: %s", response)
@@ -167,6 +177,12 @@ class OptionsFlowHandler(OptionsFlow):
                             CONF_PORT, DEFAULT_PORT
                         ),
                     ): PORT_VALIDATOR,
+                    vol.Required(
+                        CONF_FRAMER,
+                        default=self.config_entry.data.get(
+                            CONF_FRAMER, DEFAULT_FRAMER
+                        ),
+                    ): FRAMER_SELECTOR,
                 }
             ),
             errors=errors,

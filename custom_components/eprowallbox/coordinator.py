@@ -1,4 +1,4 @@
-"""DataUpdateCoordinator for eProWallbox (Modbus TCP)."""
+"""DataUpdateCoordinator for eProWallbox (Modbus RTU sur TCP / Modbus TCP)."""
 
 from __future__ import annotations
 
@@ -17,10 +17,10 @@ from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from pymodbus.client import AsyncModbusTcpClient
 from pymodbus.exceptions import ModbusException
 
-from .const import DOMAIN
+from .const import CONF_FRAMER, DEFAULT_FRAMER, DOMAIN
+from .helpers import create_client, slave_kwarg
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -136,17 +136,13 @@ class TemplateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             name=DOMAIN,
             update_interval=timedelta(seconds=BASE_UPDATE_INTERVAL),
         )
-        self.client = AsyncModbusTcpClient(
+        self.client = create_client(
             entry.data[CONF_HOST],
-            port=entry.data[CONF_PORT],
-            timeout=TIMEOUT,
+            entry.data[CONF_PORT],
+            entry.data.get(CONF_FRAMER, DEFAULT_FRAMER),
+            TIMEOUT,
         )
-        # pymodbus >= 3.10 : "device_id" ; versions précédentes : "slave"
-        self._slave_kwarg = (
-            "device_id"
-            if "device_id" in inspect.signature(self.client.read_holding_registers).parameters
-            else "slave"
-        )
+        self._slave_kwarg = slave_kwarg(self.client)
         self._lock = asyncio.Lock()
         self._values: dict[str, Any] = {}
         self._next_due: dict[str, float] = {}

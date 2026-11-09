@@ -3,15 +3,16 @@
     "step": {
       "user": {
         "title": "Conectar su eProWallbox",
-        "description": "Introduzca la dirección IP y el puerto Modbus TCP de su cargador.",
+        "description": "Introduce la dirección IP, el puerto y el tipo de trama Modbus de tu wallbox. La eProWallbox Move suele necesitar «Modbus RTU sobre TCP».",
         "data": {
           "host": "Host",
-          "port": "Puerto"
+          "port": "Puerto",
+          "framer": "Tipo de trama"
         }
       }
     },
     "error": {
-      "cannot_connect": "Error al conectar. Compruebe la dirección, el puerto y que Modbus TCP esté activado en el cargador.",
+      "cannot_connect": "Error de conexión. Comprueba la dirección, el puerto, el tipo de trama (RTU sobre TCP / Modbus TCP) y los ajustes Modbus de la wallbox.",
       "unknown": "Error inesperado"
     },
     "abort": {
@@ -24,13 +25,22 @@
         "title": "Ajustes de conexión del cargador",
         "data": {
           "host": "Host",
-          "port": "Puerto"
+          "port": "Puerto",
+          "framer": "Tipo de trama"
         }
       }
     },
     "error": {
-      "cannot_connect": "Error al conectar. Compruebe la dirección, el puerto y que Modbus TCP esté activado en el cargador.",
+      "cannot_connect": "Error de conexión. Comprueba la dirección, el puerto, el tipo de trama (RTU sobre TCP / Modbus TCP) y los ajustes Modbus de la wallbox.",
       "unknown": "Error inesperado"
+    }
+  },
+  "selector": {
+    "framer": {
+      "options": {
+        "rtu": "Modbus RTU sobre TCP (pasarela RS485)",
+        "socket": "Modbus TCP (estándar)"
+      }
     }
   }
 }

@@ -3,15 +3,16 @@
     "step": {
       "user": {
         "title": "Mit Ihrer eProWallbox verbinden",
-        "description": "Geben Sie die IP-Adresse und den Modbus-TCP-Port Ihrer Wallbox ein.",
+        "description": "Geben Sie IP-Adresse, Port und Modbus-Framing Ihrer Wallbox ein. Die eProWallbox Move benötigt in der Regel „Modbus RTU über TCP“.",
         "data": {
           "host": "Host",
-          "port": "Port"
+          "port": "Port",
+          "framer": "Framing"
         }
       }
     },
     "error": {
-      "cannot_connect": "Verbindung fehlgeschlagen. Prüfen Sie Adresse und Port und ob Modbus TCP an der Wallbox aktiviert ist.",
+      "cannot_connect": "Verbindung fehlgeschlagen. Prüfen Sie Adresse, Port, Framing (RTU über TCP / Modbus TCP) und die Modbus-Einstellungen der Wallbox.",
       "unknown": "Unerwarteter Fehler"
     },
     "abort": {
@@ -24,13 +25,22 @@
         "title": "Verbindungseinstellungen der Wallbox",
         "data": {
           "host": "Host",
-          "port": "Port"
+          "port": "Port",
+          "framer": "Framing"
         }
       }
     },
     "error": {
-      "cannot_connect": "Verbindung fehlgeschlagen. Prüfen Sie Adresse und Port und ob Modbus TCP an der Wallbox aktiviert ist.",
+      "cannot_connect": "Verbindung fehlgeschlagen. Prüfen Sie Adresse, Port, Framing (RTU über TCP / Modbus TCP) und die Modbus-Einstellungen der Wallbox.",
       "unknown": "Unerwarteter Fehler"
+    }
+  },
+  "selector": {
+    "framer": {
+      "options": {
+        "rtu": "Modbus RTU über TCP (RS485-Gateway)",
+        "socket": "Modbus TCP (Standard)"
+      }
     }
   }
 }
